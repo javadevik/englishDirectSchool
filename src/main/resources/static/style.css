@@ -1,0 +1,143 @@
+body {
+    color:#113;
+}
+
+a {
+    text-decoration: none;
+}
+
+div.generated-link-container {
+    margin-left: auto;
+}
+
+div.about-wrap-info {
+    padding-top: 40px;
+    padding-bottom: 0;
+}
+
+div.about-of-course {
+    margin: 0;
+    position: relative;
+}
+
+div.slotholder {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    visibility: inherit;
+    opacity: 1;
+
+}
+
+div.greeting-image {
+    background-image: url("/static/images/after_header.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    width: 100%;
+    height: 450px;
+    opacity: 1;
+    visibility: inherit;
+    z-index: 20;
+}
+
+div.contact_info {
+    display:inline-block;
+    left:0;
+    top:0;
+    width:100%;
+}
+
+div.customize-login-container {
+    background-image: url("/static/images/status_background.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    color: #ffffff;
+    height:600px;
+    padding-top:50px;
+    padding-right:50px;
+}
+
+div.login-form-container {
+    width: max-content;
+    margin-left: auto;
+    background: transparent;
+    border-radius: 10px;
+    padding:10px;
+}
+
+ul.contact_details {
+    margin: 0;
+    float:left;
+    list-style: none;
+    font-size: 1.1em;
+    color: #ffffff;
+}
+
+ul.contact_details li {
+    display: inline-block;
+}
+
+ul.social_menu {
+    margin: 0;
+    padding-right:16px;
+    float:right;
+    list-style: none;
+    font-size: 1.1em;
+    color: #ffffff;
+}
+
+ul.social_menu li {
+    display: inline-block;
+}
+
+li.mail {
+    padding-left:10px;
+}
+
+.icon-phone::before {
+    content: url("/static/icons/phone.svg");
+}
+
+.icon-mail::before {
+    content: url("/static/icons/mail.svg");
+}
+
+.icon-address::before {
+    content: url("/static/icons/gps.svg");
+}
+
+a.link-phone, a.link-mail, a.address_action {
+    color: #ffffff;
+}
+
+a.menu_link {
+    bottom: 0;
+    left: 0;
+    position: relative;
+    width: 100%;
+    color: #113;
+}
+
+a.menu_link:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width:100%;
+    height:2px;
+    background-color: #113;
+    transition: 0.2s;
+    transform: scaleX(0);
+}
+
+a.menu_link:hover:before {
+    transform: scaleX(1);
+}
+
+#header_wrapper {
+    position: relative;
+}
