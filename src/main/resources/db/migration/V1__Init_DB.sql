@@ -34,10 +34,21 @@ create table usr (
     primary key (id)
 );
 
+create table student (
+    id int8 not null,
+    level int4,
+    user_id int8 not null,
+    primary key (id)
+);
+
 alter table if exists person
     add constraint person_user_fk
     foreign key (user_id) references usr;
 
 alter table if exists user_role
     add constraint user_role_user_fk
+    foreign key (user_id) references usr;
+
+alter table if exists student
+    add constraint student_user_fk
     foreign key (user_id) references usr;

@@ -2,7 +2,7 @@ package com.ua.controller;
 
 import com.ua.domain.Role;
 import com.ua.domain.User;
-import com.ua.repos.PersonRepository;
+import com.ua.service.PersonService;
 import com.ua.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,11 +17,11 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final PersonRepository personRepository;
+    private final PersonService personService;
 
-    public UserController(UserService userService, PersonRepository personRepository) {
+    public UserController(UserService userService, PersonService personService) {
         this.userService = userService;
-        this.personRepository = personRepository;
+        this.personService = personService;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -53,7 +53,7 @@ public class UserController {
     @GetMapping("profile")
     public String getProfile(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("username", user.getUsername());
-        model.addAttribute("person", personRepository.findPersonByUser(user));
+        model.addAttribute("person", personService.findByUser(user));
         return "profile";
     }
 }
