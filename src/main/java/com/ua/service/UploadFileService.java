@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public class UploadFileService {
@@ -28,9 +27,7 @@ public class UploadFileService {
 
 
     public void saveFile(int level, MultipartFile multipartFile, HttpServletRequest request) throws IOException {
-
         UploadFile uploadFile = new UploadFile();
-
 
         String realPath = request.getServletContext().getRealPath(uploadPath);
         File uploadDir = new File(realPath);

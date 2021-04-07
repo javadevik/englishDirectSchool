@@ -12,6 +12,11 @@ public class Student {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
+
     private Integer level;
 
     public Long getId() {
@@ -28,6 +33,14 @@ public class Student {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public Integer getLevel() {

@@ -38,6 +38,14 @@ create table student (
     id int8 not null,
     level int4,
     user_id int8 not null,
+    person_id int8 not null,
+    group_id int8 not null,
+    primary key (id)
+);
+
+create table grp (
+    id int8 not null,
+    name varchar(255) not null,
     primary key (id)
 );
 
@@ -52,3 +60,11 @@ alter table if exists user_role
 alter table if exists student
     add constraint student_user_fk
     foreign key (user_id) references usr;
+
+alter table if exists student
+    add constraint student_person_fk
+    foreign key (person_id) references usr;
+
+alter table if exists student
+    add constraint student_group_fk
+    foreign key (group_id) references grp;
