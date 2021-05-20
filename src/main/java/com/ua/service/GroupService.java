@@ -1,44 +1,66 @@
 package com.ua.service;
 
-import com.ua.domain.Group;
-import com.ua.domain.Student;
+import com.ua.domain.student_models.Group;
+import com.ua.domain.student_models.Student;
+import com.ua.exception.GroupAddException;
 import com.ua.repos.GroupRepository;
+import com.ua.repos.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class GroupService {
 
-    private final GroupRepository groupRepository;
     private final static Logger log = LoggerFactory.getLogger(GroupService.class);
 
-    public GroupService(GroupRepository groupRepository) {
+    private final GroupRepository groupRepository;
+    private final StudentRepository studentRepository;
+
+    public GroupService(GroupRepository groupRepository, StudentRepository studentRepository) {
         this.groupRepository = groupRepository;
+        this.studentRepository = studentRepository;
     }
 
     public List<Group> findAll() {
         return groupRepository.findAll();
     }
 
-    public void createGroup(Group group, String name, Set<Student> students) {
-        group.setName(name);
-        group.setStudents(students);
-        groupRepository.save(group);
-        log.info(group.getName() + " created");
+    public void addToGroup(String nameGroup, Student student) throws GroupAddException {
+        if (student == null || !student.isActive())
+            throw new GroupAddException("Attempt add to group empty value", nameGroup);
+        Group group = groupRepository.findByName(nameGroup);
+        if (group == null) {
+            Group newGroup = new Group(nameGroup, Collections.singleton(student));
+            //newGroup.setName(nameGroup);
+            groupRepository.save(newGroup);
+
+            student.setGroup(groupRepository.findByName(newGroup.getName()));
+            studentRepository.save(student);
+            log.info("Creating a group with students [" + log.getClass() + "]");
+        } else {
+            if (group.getStudents().contains(student))
+                throw new GroupAddException("Student is already exists", nameGroup, student);
+            group.getStudents().add(student);
+            groupRepository.save(group);
+            student.setGroup(groupRepository.findByName(group.getName()));
+            studentRepository.save(student);
+            log.info("Adding to group [" + log.getClass() + "]");
+        }
+
     }
 
-    public void addToGroup(Group group, List<Student> students) {
-        log.info("Start add to group process");
-        for (Student student: students) {
-            if (!group.getStudents().contains(student)) {
-                group.getStudents().add(student);
-                log.info(student.getPerson().toString() + " added to group " + group.getName());
-            }
+    public void removeStudentFromGroup(Group group, Student student) {
+        group.getStudents().remove(student);
+        if (group.getStudents().isEmpty()) {
+            groupRepository.delete(group);
+            log.info("Deleting group because of it's empty [" + log.getClass() + "]");
+        } else {
+            groupRepository.save(group);
         }
-        groupRepository.save(group);
     }
+
 }

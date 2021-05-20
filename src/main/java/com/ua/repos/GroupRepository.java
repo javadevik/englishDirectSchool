@@ -1,9 +1,10 @@
 package com.ua.repos;
 
-import com.ua.domain.Group;
-import com.ua.domain.Student;
+import com.ua.domain.student_models.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
-    Group findGroupByStudentsContains(Student student);
+    Group findByName(String name);
 }

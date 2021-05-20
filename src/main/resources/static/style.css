@@ -1,5 +1,6 @@
 body {
     color:#113;
+    font-size: 150%
 }
 
 a {
@@ -49,6 +50,10 @@ div.contact_info {
     width:100%;
 }
 
+span.hd-logo {
+    font-size: 170%;
+}
+
 div.customize-login-container {
     background-image: url("/static/images/status_background.jpg");
     background-repeat: no-repeat;
@@ -94,50 +99,50 @@ ul.social_menu li {
     display: inline-block;
 }
 
-li.mail {
-    padding-left:10px;
-}
-
-.icon-phone::before {
-    content: url("/static/icons/phone.svg");
-}
-
-.icon-mail::before {
-    content: url("/static/icons/mail.svg");
-}
-
-.icon-address::before {
-    content: url("/static/icons/gps.svg");
-}
-
-a.link-phone, a.link-mail, a.address_action {
-    color: #ffffff;
-}
-
-a.menu_link {
-    bottom: 0;
-    left: 0;
-    position: relative;
-    width: 100%;
-    color: #113;
-}
-
-a.menu_link:before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width:100%;
-    height:2px;
-    background-color: #113;
-    transition: 0.2s;
-    transform: scaleX(0);
-}
-
-a.menu_link:hover:before {
-    transform: scaleX(1);
-}
-
 #header_wrapper {
     position: relative;
+}
+
+.row {
+    height:500px;
+    width:1000px;
+    overflow:auto;
+}
+
+.col-4 {
+    height:500px;
+    width: 300px;
+    overflow:auto;
+}
+
+.col-8 {
+    height:500px;
+    overflow:auto;
+}
+.logomain-menu {
+}
+
+.navtab-menu {
+    height: 600px;
+    width: 500px;
+    padding-left: 15px;
+}
+
+.lg-main-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+.custom-alert {
+    width: 500px;
+}
+
+.contact-information {
+    color: darkcyan;
+}
+
+.contact-information-container {
+    margin-top: 15px;
 }

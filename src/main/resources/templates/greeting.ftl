@@ -1,40 +1,19 @@
 <#import "parts/common.ftl" as c>
 <#import "parts/logreg.ftl" as l>
 
-<@c.page "Greeting" false>
-    <div class="about-wrap-info">
-        <div class="about-of-course">
-            <ul class="about-of-course">
-                <b>В загальному курсі англійської мови від English Direct Ви:</b>
-                <li>
-                    Зможете сприймати на слух англійську і відповідати в нормальному розмовному темпі.
-                </li>
-                <li>
-                    Навчитеся думати і говорити одразу англійською без попереднього перекладу на свою рідну мову.
-                </li>
-                <li>
-                    Вивчите практичні, корисні лексичні та граматичні структури.
-                </li>
-                <li>
-                    Покращите свою вимову, інтонацію та навички використання граматики щодня завдяки постійній корекції вчителя.
-                </li>
-                <li>
-                    Перевірятимете своє розуміння та прогрес у регулярній практиці читання та письма.
-                </li>
-                <li>
-                    Отримаєте максимальний час практики спілкування у малих класах, що не перевищують 5 чоловік у групі.
-                </li>
-                <li>
-                    90% уроку складає розмовна практика.
-                </li>
-            </ul>
+<@c.page "Greeting" true>
+
+    <#if message??>
+        <div class="custom-alert" xmlns="http://www.w3.org/1999/html">
+            <div class="alert alert-danger" role="alert">
+                ${message}
+            </div>
         </div>
-    </div>
-    <div class="customize-login-container">
+    </#if>
+
         <#if user??>
             <a href="/main">Main page</a>
         <#else>
             <@l.loginform />
         </#if>
-    </div>
 </@c.page>

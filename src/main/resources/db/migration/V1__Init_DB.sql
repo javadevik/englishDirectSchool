@@ -30,16 +30,16 @@ create table usr (
     active boolean not null,
     password varchar(255) not null,
     username varchar(255) not null,
-    level int4,
     primary key (id)
 );
 
 create table student (
     id int8 not null,
     level int4,
+    active boolean not null,
     user_id int8 not null,
     person_id int8 not null,
-    group_id int8 not null,
+    group_id int8,
     primary key (id)
 );
 
@@ -63,7 +63,7 @@ alter table if exists student
 
 alter table if exists student
     add constraint student_person_fk
-    foreign key (person_id) references usr;
+    foreign key (person_id) references person;
 
 alter table if exists student
     add constraint student_group_fk

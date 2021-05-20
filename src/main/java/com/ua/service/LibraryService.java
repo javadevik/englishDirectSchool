@@ -1,7 +1,8 @@
 package com.ua.service;
 
 import com.ua.domain.UploadFile;
-import com.ua.repos.UploadFileRepository;
+import com.ua.exception.FileExistsException;
+import com.ua.repos.LibraryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,22 +12,41 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Service
-public class UploadFileService {
+public class LibraryService {
+
+    private final Logger log = LoggerFactory.getLogger(LibraryService.class);
 
     @Value("${upload.path}")
     private String uploadPath;
-    private final UploadFileRepository uploadFileRepository;
 
-    private final static Logger log = LoggerFactory.getLogger(UploadFileService.class);
+    private final LibraryRepository libraryRepository;
 
-    public UploadFileService(UploadFileRepository uploadFileRepository) {
-        this.uploadFileRepository = uploadFileRepository;
+    public final String AUDIO_TYPE = "audio/mpeg";
+    public final String BOOK_TYPE = "application/pdf";
+
+    public LibraryService(LibraryRepository libraryRepository) {
+        this.libraryRepository = libraryRepository;
     }
 
+    public List<UploadFile> getAllBook() {
+        return libraryRepository.findAllByType(BOOK_TYPE);
+    }
 
-    public void saveFile(int level, MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+    public List<UploadFile> getAllVoice() {
+        return libraryRepository.findAllByType(AUDIO_TYPE);
+    }
+
+    public void saveFile(int level, MultipartFile multipartFile, HttpServletRequest request)
+            throws IOException, FileExistsException {
+
+        if (libraryRepository.existsUploadFileByNameAndType(multipartFile.getOriginalFilename(),
+                multipartFile.getContentType())) {
+            throw new FileExistsException("File is exists", multipartFile.getOriginalFilename());
+        }
+
         UploadFile uploadFile = new UploadFile();
 
         String realPath = request.getServletContext().getRealPath(uploadPath);
@@ -48,6 +68,6 @@ public class UploadFileService {
         File fileToStorage = new File(uploadFile.getPath());
         multipartFile.transferTo(fileToStorage);
 
-        uploadFileRepository.save(uploadFile);
+        libraryRepository.save(uploadFile);
     }
 }

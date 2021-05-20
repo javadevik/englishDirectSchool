@@ -14,14 +14,15 @@
                 </div>
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <button type="submit" class="btn btn-light">SignIn</button>
-            <a href="/registration" class="btn btn-light ms-3">Registration</a>
+            <button type="submit" class="btn btn-dark">SignIn</button>
+            <a href="/registration" class="btn btn-dark ms-3">Registration</a>
         </form>
     </div>
 </#macro>
 
 <#macro registration>
     <form action="/registration" method="post">
+
         <div class="input-group flex-nowrap  mb-2">
             <span class="input-group-text" id="addon-wrapping">Username</span>
             <div class="col-sm-25 ms-1">
@@ -46,13 +47,19 @@
         <div class="input-group flex-nowrap  mb-2">
             <span class="input-group-text" id="addon-wrapping">Passport or Id card number</span>
             <div class="col-sm-30 ms-1">
-                <input type="text" class="form-control" name="passport" placeholder="Passport/IdCard" aria-describedby="addon-wrapping">
+                <input type="text" class="form-control" name="passportNumber" placeholder="Passport/IdCard" aria-describedby="addon-wrapping">
             </div>
         </div>
         <div class="input-group flex-nowrap  mb-2">
             <span class="input-group-text" id="addon-wrapping">Tax number</span>
             <div class="col-sm-30 ms-1">
                 <input type="text" class="form-control" name="taxNumber" placeholder="Tax number" aria-describedby="addon-wrapping">
+            </div>
+        </div>
+        <div class="input-group flex-nowrap  mb-2">
+            <span class="input-group-text" id="addon-wrapping">Address</span>
+            <div class="col-sm-30 ms-1">
+                <input type="text" class="form-control" name="address" placeholder="Address" aria-describedby="addon-wrapping">
             </div>
         </div>
         <div class="input-group flex-nowrap  mb-2">
@@ -67,6 +74,9 @@
                 <input type="text" class="form-control" name="phone" placeholder="+380*********" aria-describedby="addon-wrapping">
             </div>
         </div>
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+        <button type="submit" class="btn btn-dark">SignUp</button>
+        <a href="/" class="btn btn-dark ms-3">Cancel</a>
     </form>
 </#macro>
 

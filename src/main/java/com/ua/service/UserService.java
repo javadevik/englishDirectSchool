@@ -1,10 +1,10 @@
 package com.ua.service;
 
 import com.ua.domain.Role;
-import com.ua.domain.Student;
 import com.ua.domain.User;
-import com.ua.repos.StudentRepository;
 import com.ua.repos.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,12 +18,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
-    private final UserRepository userRepository;
-    private final StudentRepository studentRepository;
 
-    public UserService(UserRepository userRepository, StudentRepository studentRepository) {
+    private final static Logger log = LoggerFactory.getLogger(UserService.class);
+
+    private final UserRepository userRepository;
+    private final StudentService studentService;
+
+    public UserService(UserRepository userRepository, StudentService studentService) {
         this.userRepository = userRepository;
-        this.studentRepository = studentRepository;
+        this.studentService = studentService;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void saveUser(User user, String username, Map<String, String> form) {
-        Student student = new Student();
+
         user.setUsername(username);
         user.getRoles().clear();
         Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
@@ -45,14 +48,14 @@ public class UserService implements UserDetailsService {
                 user.getRoles().add(Role.valueOf(key));
             }
         }
-        if (user.getRoles().contains(Role.STUDENT)) {
-            if (!studentRepository.existsByUser(user)) {
-                student.setUser(user);
-                studentRepository.save(student);
-            }
-        } else if (studentRepository.existsByUser(user)){
-            studentRepository.delete(studentRepository.findByUser(user));
-        }
         userRepository.save(user);
+
+        if (user.getRoles().contains(Role.STUDENT)) {
+            log.info("Trying to set active");
+            studentService.setActiveStudent(userRepository.findUserByUsername(user.getUsername()));
+        } else {
+            log.info("Trying to set non active");
+            studentService.setNonActiveStudent(user);
+        }
     }
 }

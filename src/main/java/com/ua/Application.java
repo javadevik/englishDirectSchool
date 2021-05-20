@@ -1,5 +1,6 @@
 package com.ua;
 
+import com.ua.util.ScheduleGeneration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

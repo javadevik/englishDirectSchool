@@ -1,5 +1,7 @@
 package com.ua.domain;
 
+import com.sun.istack.NotNull;
+import com.ua.domain.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,7 +19,6 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private boolean active;
-    private Integer level;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -26,6 +27,10 @@ public class User implements UserDetails {
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
+    }
+
+    public boolean isStudent() {
+        return roles.contains(Role.STUDENT);
     }
 
     public Long getId() {
@@ -93,11 +98,14 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", roles=" + roles +
+                '}';
     }
 }

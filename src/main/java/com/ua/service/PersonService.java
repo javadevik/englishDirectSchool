@@ -9,17 +9,15 @@ import java.util.List;
 
 @Service
 public class PersonService {
+
     private final PersonRepository personRepository;
 
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
-    public List<Person> findAll() {
-        return personRepository.findAll();
+    public Person findByUser(User user) {
+        return personRepository.findPersonByUser(user);
     }
 
-    public Person findByUser(User user) {
-        return findByUser(user);
-    }
 }

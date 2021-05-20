@@ -77,4 +77,15 @@ public class UploadFile {
         result = 31 * result + level;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "UploadFile{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                ", type='" + type + '\'' +
+                ", level=" + level +
+                '}';
+    }
 }

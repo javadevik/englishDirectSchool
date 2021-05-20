@@ -1,6 +1,6 @@
 package com.ua.config;
 
-import com.ua.controller.RequestHandlerInterceptor;
+import com.ua.handlers.AccessHandlerInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("greeting");
+        registry.addViewController("/login").setViewName("greeting");
     }
 
     @Override
@@ -19,11 +19,5 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
     }
-
-    @Override
-    public void addInterceptors(final InterceptorRegistry registry) {
-       // registry.addInterceptor(new RequestHandlerInterceptor()).addPathPatterns("/main");
-    }
-
 
 }

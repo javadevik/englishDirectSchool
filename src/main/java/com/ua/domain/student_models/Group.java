@@ -1,6 +1,7 @@
-package com.ua.domain;
+package com.ua.domain.student_models;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -9,11 +10,19 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "group_id")
-    private Set<Student> students;
+    @OneToMany (mappedBy="group", fetch=FetchType.EAGER)
+    private Set<Student> students = new HashSet<>();
+
+    public Group() {
+    }
+
+    public Group(String name, Set<Student> students) {
+        this.name = name;
+        this.students = students;
+    }
 
     public Long getId() {
         return id;
