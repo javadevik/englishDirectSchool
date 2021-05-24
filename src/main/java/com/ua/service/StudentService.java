@@ -1,14 +1,16 @@
 package com.ua.service;
 
+import com.ua.domain.Person;
 import com.ua.domain.student_models.Group;
+import com.ua.domain.student_models.HistoryEducation;
 import com.ua.domain.student_models.Student;
-import com.ua.domain.User;
-import com.ua.repos.PersonRepository;
+import com.ua.repos.HistoryEducationRepository;
 import com.ua.repos.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,35 +20,39 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final GroupService groupService;
-    private final PersonRepository personRepository;
+    private final HistoryEducationRepository historyEducationRepository;
 
-    public StudentService(StudentRepository studentRepository, GroupService groupService, PersonRepository personRepository) {
+    public StudentService(StudentRepository studentRepository, GroupService groupService, HistoryEducationRepository historyEducationRepository) {
         this.studentRepository = studentRepository;
         this.groupService = groupService;
-        this.personRepository = personRepository;
+        this.historyEducationRepository = historyEducationRepository;
     }
 
     public List<Student> findAll() {
         return studentRepository.findAll();
     }
 
-    public void setActiveStudent(User user) {
-        Student student = studentRepository.findByUser(user);
+    public void setActiveStudent(Person person) {
+        Student student = studentRepository.findByPerson(person);
         if (student == null) {
-            Student newStudent = new Student(user, personRepository.findPersonByUser(user), true);
+            student = new Student(person, true);
             log.info("Adding a new student");
-            studentRepository.save(newStudent);
         } else if (!student.isActive()) {
             student.setActive(true);
             log.info("Set student is active");
-            studentRepository.save(student);
         }
+        HistoryEducation historyEducation = new HistoryEducation(LocalDate.now(), student.getLevel(), student);
+        student.getHistoryEducations().add(historyEducation);
+        studentRepository.save(student);
+        historyEducationRepository.save(historyEducation);
     }
 
-    public void setNonActiveStudent(User user) {
-        Student student = studentRepository.findByUser(user);
+    public void setNonActiveStudent(Person person) {
+        Student student = studentRepository.findByPerson(person);
         if (student != null && student.isActive()) {
             student.setActive(false);
+            student.getHistoryEducations().get(student.getHistoryEducations().size()-1)
+                    .setEndStudyingDate(LocalDate.now());
             if (student.getGroup() != null) {
                 Group group = student.getGroup();
                 student.setGroup(null);

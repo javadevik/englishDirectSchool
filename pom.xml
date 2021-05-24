@@ -56,22 +56,34 @@
         </dependency>
 
         <!--Google Sheets API-->
-        <dependency>
-            <groupId>com.google.api-client</groupId>
-            <artifactId>google-api-client</artifactId>
-            <version>1.23.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.oauth-client</groupId>
-            <artifactId>google-oauth-client-jetty</artifactId>
-            <version>1.23.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.apis</groupId>
-            <artifactId>google-api-services-sheets</artifactId>
-            <version>v4-rev493-1.23.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.google.api-client</groupId>-->
+<!--            <artifactId>google-api-client</artifactId>-->
+<!--            <version>1.23.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.google.oauth-client</groupId>-->
+<!--            <artifactId>google-oauth-client-jetty</artifactId>-->
+<!--            <version>1.23.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.google.apis</groupId>-->
+<!--            <artifactId>google-api-services-sheets</artifactId>-->
+<!--            <version>v4-rev493-1.23.0</version>-->
+<!--        </dependency>-->
 
+
+        <!--JSON Spring-->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-core</artifactId>-->
+<!--            <version>5.4.0.Final</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--            <artifactId>jackson-databind</artifactId>-->
+<!--            <version>2.9.8</version>-->
+<!--        </dependency>-->
 
         <!--Spring security-->
         <dependency>

@@ -1,6 +1,7 @@
 package com.ua.domain;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "upload_files")
@@ -8,6 +9,12 @@ public class UploadFile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private LocalDate uploadDate;
 
     private String name;
     private String path;
@@ -20,6 +27,14 @@ public class UploadFile {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDate getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(LocalDate uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     public String getName() {
@@ -52,6 +67,14 @@ public class UploadFile {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

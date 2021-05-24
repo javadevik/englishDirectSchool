@@ -61,13 +61,13 @@ public class LibraryController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/uploadFile")
-    public String loadFile(@RequestParam("files") MultipartFile[] files, @RequestParam int level,
+    public String loadFile(@AuthenticationPrincipal User user, @RequestParam("files") MultipartFile[] files, @RequestParam int level,
             @HttpConstraint HttpServletRequest request, Model model) throws IOException {
 
         if(files.length != 0) {
             for(MultipartFile multipartFile : files) {
                 try {
-                    libraryService.saveFile(level, multipartFile, request);
+                    libraryService.saveFile(user, level, multipartFile, request);
                 } catch (FileExistsException e) {
                     model.addAttribute("messages", e.getMessage() + e.getFilename());
                 }

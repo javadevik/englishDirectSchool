@@ -1,9 +1,10 @@
 package com.ua.domain.student_models;
 
 import com.ua.domain.Person;
-import com.ua.domain.User;
 
 import javax.persistence.*;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "student")
@@ -12,9 +13,8 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany (mappedBy = "student", fetch=FetchType.LAZY)
+    private List<HistoryEducation> historyEducations = new LinkedList<>();
 
     @OneToOne
     @JoinColumn(name = "person_id")
@@ -24,15 +24,14 @@ public class Student {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    private Integer level;
+    private Integer level = 1;
 
     private boolean active;
 
     public Student() {
     }
 
-    public Student(User user, Person person, boolean active) {
-        this.user = user;
+    public Student(Person person, boolean active) {
         this.person = person;
         this.active = active;
     }
@@ -45,12 +44,12 @@ public class Student {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public List<HistoryEducation> getHistoryEducations() {
+        return historyEducations;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setHistoryEducations(List<HistoryEducation> historyEducations) {
+        this.historyEducations = historyEducations;
     }
 
     public Person getPerson() {
@@ -85,29 +84,13 @@ public class Student {
         this.active = active;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Student student = (Student) o;
-
-        if (active != student.active) return false;
-        if (!id.equals(student.id)) return false;
-        if (!user.equals(student.user)) return false;
-        if (!person.equals(student.person)) return false;
-        if (group != null ? !group.equals(student.group) : student.group != null) return false;
-        return level != null ? level.equals(student.level) : student.level == null;
-    }
 
     @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + user.hashCode();
-        result = 31 * result + person.hashCode();
-        result = 31 * result + (group != null ? group.hashCode() : 0);
-        result = 31 * result + (level != null ? level.hashCode() : 0);
-        result = 31 * result + (active ? 1 : 0);
-        return result;
+    public String toString() {
+        return "Student{" +
+                "person=" + person +
+                ", group=" + group +
+                ", level=" + level +
+                '}';
     }
 }

@@ -22,10 +22,12 @@ public class UserService implements UserDetailsService {
     private final static Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    private final PersonService personService;
     private final StudentService studentService;
 
-    public UserService(UserRepository userRepository, StudentService studentService) {
+    public UserService(UserRepository userRepository, PersonService personService, StudentService studentService) {
         this.userRepository = userRepository;
+        this.personService = personService;
         this.studentService = studentService;
     }
 
@@ -52,10 +54,10 @@ public class UserService implements UserDetailsService {
 
         if (user.getRoles().contains(Role.STUDENT)) {
             log.info("Trying to set active");
-            studentService.setActiveStudent(userRepository.findUserByUsername(user.getUsername()));
+            studentService.setActiveStudent(personService.findByUser(user));
         } else {
             log.info("Trying to set non active");
-            studentService.setNonActiveStudent(user);
+            studentService.setNonActiveStudent(personService.findByUser(user));
         }
     }
 }

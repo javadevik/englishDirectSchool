@@ -1,6 +1,7 @@
 package com.ua.service;
 
 import com.ua.domain.UploadFile;
+import com.ua.domain.User;
 import com.ua.exception.FileExistsException;
 import com.ua.repos.LibraryRepository;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,8 +26,8 @@ public class LibraryService {
 
     private final LibraryRepository libraryRepository;
 
-    public final String AUDIO_TYPE = "audio/mpeg";
-    public final String BOOK_TYPE = "application/pdf";
+    public static final String AUDIO_TYPE = "audio/mpeg";
+    public static final String BOOK_TYPE = "application/pdf";
 
     public LibraryService(LibraryRepository libraryRepository) {
         this.libraryRepository = libraryRepository;
@@ -39,7 +41,7 @@ public class LibraryService {
         return libraryRepository.findAllByType(AUDIO_TYPE);
     }
 
-    public void saveFile(int level, MultipartFile multipartFile, HttpServletRequest request)
+    public void saveFile(User user, int level, MultipartFile multipartFile, HttpServletRequest request)
             throws IOException, FileExistsException {
 
         if (libraryRepository.existsUploadFileByNameAndType(multipartFile.getOriginalFilename(),
@@ -64,6 +66,9 @@ public class LibraryService {
         uploadFile.setType(multipartFile.getContentType());
         uploadFile.setLevel(level);
         uploadFile.setPath(realPath + uploadFile.getName());
+
+        uploadFile.setUploadDate(LocalDate.now());
+        uploadFile.setUser(user);
 
         File fileToStorage = new File(uploadFile.getPath());
         multipartFile.transferTo(fileToStorage);

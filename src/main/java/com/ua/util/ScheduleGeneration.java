@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
 
-@Component
-@EnableScheduling
+//@Component
+//@EnableScheduling
 public class ScheduleGeneration {
 
     private static Logger log = LoggerFactory.getLogger(ScheduleGeneration.class);
 
-    @Scheduled(fixedRate = 10_000)
+    //@Scheduled(fixedRate = 10_000)
     public void setSchedule() {
         log.info("[ScheduleGeneration]: " + LocalDate.now().toString());
     }
